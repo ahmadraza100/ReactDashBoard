@@ -1,4 +1,5 @@
 import {React, useState} from 'react';
+import { Route, Switch  , Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,14 +12,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
-import AddTodo from './Todo/AddTodo';
+import AddTodoo from '../TodoComponent/Users/add';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { palette } from '@material-ui/system';
-
-import Box from '@material-ui/core/Box';
-import Link from '@material-ui/core/Link';
-import { Breadcrumbs } from '@material-ui/core';
 import RecipeReviewCard from "./sidebarcard"
 import SpeedTwoToneIcon from '@material-ui/icons/SpeedTwoTone';
 import NestedList from "./dropdown"
@@ -26,6 +23,10 @@ import NoteIcon from '@material-ui/icons/Note';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import ListIcon from '@material-ui/icons/List';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import DashBoard from "../TodoComponent/dashboard/DashBoard"
+import News from "../TodoComponent/News/News"
+import "../../../App.css"
+import Login from  "../TodoComponent/login/login"
 const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
@@ -73,12 +74,27 @@ const useStyles = makeStyles((theme) => ({
 
 function ResponsiveDrawer(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [Name, setName] = useState("Dashboard");
+  const [Logout, setLogout] = useState(false);
 
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
+  const clear = ()=>{
+    setName("");
+    setLogout(true)
+  }
   
 
+  const N = (params , val)=>{
+      setName(params)
+      setLogout(val);
+  }
+
+  const Clear = (param)=>{
+    setName(param);
+    setLogout(true);
+  }
 
 
 
@@ -87,13 +103,13 @@ function ResponsiveDrawer(props) {
   };
 
   const drawer = (
+    
     <div>
-       
-      <div  />
       <List style={{backgroundColor:"#3f4491" , width:"100%" , height:"3.6em" , display:"flex"
-      , justifyContent:"center" , alignItems:"center" , fontSize:"1rem"}}>Ahmad Raza</List>
-      <List>
-        <RecipeReviewCard/>
+      , justifyContent:"center" , alignItems:"center" , fontSize:"1rem"}}>DashBoard By Ahmad</List>
+      {(Name!=="")?
+      <div> <List>
+        <RecipeReviewCard Name={Name}/>
       </List>
       <List style={{backgroundColor:"#2b2929" ,color:"#d1cfcf" , padding:"20px" , marginTop:"0px" , fontWeight:"bold" , textAlign:"left"}}>
         Adiminstration
@@ -101,18 +117,22 @@ function ResponsiveDrawer(props) {
 
       <List>
         {/* ['DashBoard', 'Users,Roles', 'Send email', 'Drafts'].map((text, index) => ( */}
-          <ListItem button key={"Dashboard"}>
+         <Link className="link" to="/Dashboard"><ListItem button key={"Dashboard"}>
             <ListItemIcon><SpeedTwoToneIcon  style={{color:"white"}}/></ListItemIcon>
-            <ListItemText primary={"Dashobard"} />
+            <ListItemText primary={"Dashboard"} />
           </ListItem>
-          <ListItem>
+          </Link >
+          
+          <Link activeClassName='is-active' className="link" to="/Users"><ListItem>
 
           <NestedList/>
           </ListItem>
-          <ListItem button key={"News"}>
+          </Link>
+          <Link activeClassName='is-active' className="link" to="/News"><ListItem button key={"News"}>
             <ListItemIcon><NoteIcon style={{color:"white"}}/></ListItemIcon>
             <ListItemText primary={"News"} />
           </ListItem>
+          </Link>
           <ListItem button key={"Pages"}>
             <ListItemIcon><ReceiptIcon  style={{color:"white"}}/></ListItemIcon>
             <ListItemText primary={"Pages"} />
@@ -124,13 +144,20 @@ function ResponsiveDrawer(props) {
        
 
       </List>
-      <List style={{backgroundColor:"#2b2929" ,color:"#d1cfcf" , padding:"20px" , marginTop:"0px" , fontWeight:"bold" , textAlign:"left"}}>
+      
+      <>
+     <List style={{backgroundColor:"#2b2929" ,color:"#d1cfcf" , padding:"20px" , marginTop:"0px" , fontWeight:"bold" , textAlign:"left"}}>
           Logout
       </List>
-      <ListItem button key={"Logout"}>
+      <Link to="/" onClick={clear}> <ListItem button key={"Logout"}>
             <ListItemIcon><ExitToAppIcon  style={{color:"white"}}/></ListItemIcon>
             <ListItemText primary={"Logout"} />
           </ListItem>
+          </Link></>
+          </div>
+    :<div style={{textAlign:"center"}} >
+      <h1>Please Login to Access all options</h1>
+      </div>}
     </div>
   );
 
@@ -142,10 +169,11 @@ function ResponsiveDrawer(props) {
       <AppBar  position="fixed" className={classes.appBar}>
    
         <Toolbar>
-        <ListItem style={{width:"10vw" , height:"100%", position:"absolute" , right:"0em", top:"0em"}}button key={"Logout"} >
+        {(Logout!==true)?
+        <Link  to="/" onClick={clear} className="link" ><ListItem style={{width:"10vw" , height:"100%", position:"absolute" , right:"0em", top:"0em"}}button key={"Logout"} >
             <ListItemIcon><ExitToAppIcon  style={{color:"white"}}/></ListItemIcon>
             <ListItemText primary={"Logout"} />
-          </ListItem>
+          </ListItem></Link>:""}
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -173,7 +201,7 @@ function ResponsiveDrawer(props) {
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.
             }}
-          >
+            >
 
             {drawer}
           </Drawer>
@@ -185,7 +213,7 @@ function ResponsiveDrawer(props) {
             }}
             variant="permanent"
             open
-          >
+            >
             {drawer}
           </Drawer>
         </Hidden>
@@ -193,28 +221,14 @@ function ResponsiveDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         
-            <h1 style={{color:"blue"}}>DashBoard</h1>
-        <Box style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }} >
-          <Typography align="left" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }} >
-            <Box p={1}><h2 >Users</h2></Box>
-            <p style={{ color: "gray" }} >All users are in Database</p>
-
-          </Typography>
-          <Box>
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link color="inherit" href=">" >
-                Album
-            </Link>
-              <Link color="textPrimary" href="/getting-started/installation/" >
-                Users
-             </Link>
-              <Typography color="inherit">List</Typography>
-            </Breadcrumbs>
-          </Box>
-        </Box>
-        <AddTodo />
-
+          <Switch>
+            <Route exact path="/"><Login N={N} Clear={Clear}/></Route>
+            <Route path="/Dashboard" onClick={()=>setLogout(false)}><DashBoard Name = {Name}/></Route>
+          <Route  exact path="/Users"><AddTodoo /></Route>
+            <Route path="/News"><News/></Route>
+        </Switch>
       </main>
+           
     </div>
   );
 }

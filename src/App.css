@@ -1,10 +1,70 @@
-.feilds{
-  
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+.link{
+    text-decoration: none;
+    color:white;
 }
-.form{
-  display:flex;
-  justify-content:center;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 3em;
+.link:active{
+    color:"red";
+    text-decoration: dashed;
+}
+
+.dashboard{
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin:0;
+    padding:0;
+    text-align: center;
+}
+
+.dashboard>h1{
+    padding:"5vw";
+    font-size: 3em;
+    font-family: 'Krona One', sans-serif;
+    
+}
+
+.linkk{
+    text-decoration: none;
+    color:white;
+    padding:10px 20px;
+    background-color:#8e05ff;
+    margin:1rem;
+    border-radius: 1.5rem;
+    font-size: 1.5em;
+    border:3px solid black;
+}
+.linkk:hover{
+    color:white;
+    background-color:black;
+    transform: translateY(5vw);
+    transform: scaleY(2em);
+    border:3px solid red;
+    
+}
+.dashboard>h2{
+    font-family: 'Lobster', cursive;
+    color:red;
+}
+.news{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.news>h1{
+    
+    font-family: 'Krona One', sans-serif;
+    font-size: 2em;
+    
+}
+
+.news>p{
+    
+    font-family: 'Lobster', cursive;
+    font-size: 2em;
 }

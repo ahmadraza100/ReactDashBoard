@@ -35,16 +35,17 @@ expand: {
   },
 }));
 
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard({Name}) {
   const classes = useStyles();
 
 
   return (
+    (Name!=="")?
     <Card className={classes.root}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            A
+            {(Name[0])}
           </Avatar>
         }
         action={
@@ -52,13 +53,13 @@ export default function RecipeReviewCard() {
           
           </IconButton>
         }
-        title="Ahmad Raza"
-        subheader="Online"
+        title={(Name==="")?"User":Name}
+        subheader={(Name==="")?"Offline":"Online"}
         style={{textAlign:"left" , fontWeight:"400"  }}
       />
      
      
      
-    </Card>
+    </Card>:""
   );
 }
